@@ -1,0 +1,20 @@
+#
+# https://docs.digger.dev/configuration/digger.yml
+#
+
+generate_projects:
+  terragrunt_parsing:
+    # gitRoot: ./live/bar
+    # filterPath: ./live/**
+    parallel: true
+    createProjectName: true
+    createWorkspace: true
+    defaultWorkflow: terragrunt_live
+
+workflows:
+  terragrunt_live:
+    plan:
+      steps:
+        - init
+        - plan
+        - run: echo "Hello World"
