@@ -31,6 +31,7 @@ jobs:
 
   deploy_to_prod:
     runs-on: ubuntu-latest
+    needs: deploy_to_stage
     environment: gh_env_prod
     permissions:
       contents: write      # required to merge PRs
