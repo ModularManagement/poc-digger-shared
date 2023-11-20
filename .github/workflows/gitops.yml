@@ -44,6 +44,8 @@ jobs:
           echo "github.event_name: ${{ github.event_name }}"
           echo "github.base_ref: ${{ github.base_ref }}"
           echo "github.head_ref: ${{ github.head_ref }}"
+          echo "${{ format('digger.{0}', vars.ENVIRONMENT) }}"
+          echo "digger.${{ vars.ENVIRONMENT }}"
 
     #   - uses: actions/checkout@v4
     #     with:
