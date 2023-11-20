@@ -44,7 +44,7 @@ jobs:
           echo "github.event.ref: ${{ github.event.ref }}"
           echo "github.base_ref: ${{ github.base_ref }}"
           echo "github.head_ref: ${{ github.head_ref }}"
-          echo "github.event: ${{ github.event }}"
+          echo "toJson(github.event): ${{ toJson(github.event) }}"
 
       - uses: actions/checkout@v4
       
@@ -92,7 +92,7 @@ jobs:
           echo "github.event.ref: ${{ github.event.ref }}"
           echo "github.base_ref: ${{ github.base_ref }}"
           echo "github.head_ref: ${{ github.head_ref }}"
-          echo "github.event: ${{ github.event }}"
+          echo "toJson(github.event): ${{ toJson(github.event) }}"
 
       - uses: actions/checkout@v4
       
