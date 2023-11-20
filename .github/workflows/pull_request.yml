@@ -23,7 +23,7 @@ env:
   COLLECT_USAGE_DATA: "false"
 
 jobs:
-  plan:
+  digger:
     runs-on: ubuntu-latest
     environment: gh_env_dev
     permissions:
