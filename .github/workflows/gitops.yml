@@ -13,10 +13,6 @@ on: # https://docs.github.com/en/actions/using-workflows/events-that-trigger-wor
       - opened
       - synchronize
       - reopened
-  issue_comment:
-    types: 
-      - created
-    if: contains(github.event.comment.body, 'digger')
   workflow_dispatch:
 
 env:
@@ -41,6 +37,7 @@ jobs:
           echo "github.ref: ${{ github.ref }}"
           echo "github.ref_name: ${{ github.ref_name }}"
           echo "github.event.ref: ${{ github.event.ref }}"
+          echo "github.event_name: ${{ github.event_name }}"
           echo "github.base_ref: ${{ github.base_ref }}"
           echo "github.head_ref: ${{ github.head_ref }}"
 
