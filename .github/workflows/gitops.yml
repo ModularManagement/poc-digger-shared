@@ -1,7 +1,3 @@
-#
-# Testing https://docs.digger.dev/guides/multiacc-aws
-#
-
 name: 'GitOps'
 
 on: # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
@@ -72,7 +68,7 @@ jobs:
 
           # https://github.com/diggerhq/digger/blob/develop/action.yml
           configure-checkout: true
-        #   digger-filename: "digger.${{ vars.ENVIRONMENT }}.yml"
+          # digger-filename: "digger.${{ vars.ENVIRONMENT }}.yml"
           setup-terragrunt: true
           reporting-strategy: comments_per_run
           post-plans-as-one-comment: true
@@ -109,12 +105,12 @@ jobs:
         uses: diggerhq/digger@v0.2.6
         with:
           setup-aws: true
-          aws-role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}  # ARN to AWS IAM role which we want to assume!
+          aws-role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: eu-north-1
 
           # https://github.com/diggerhq/digger/blob/develop/action.yml
           configure-checkout: true
-        #   digger-filename: "digger.${{ vars.ENVIRONMENT }}.yml"
+          # digger-filename: "digger.${{ vars.ENVIRONMENT }}.yml"
           setup-terragrunt: true
           reporting-strategy: comments_per_run
           post-plans-as-one-comment: true
@@ -147,7 +143,7 @@ jobs:
           echo "github.base_ref: ${{ github.base_ref }}"
           echo "github.head_ref: ${{ github.head_ref }}"
 
-      - name: prod digger plan
+      - name: prod digger run
         uses: diggerhq/digger@v0.2.6
         with:
           setup-aws: true
@@ -155,32 +151,8 @@ jobs:
           aws-region: eu-north-1
 
           # https://github.com/diggerhq/digger/blob/develop/action.yml
-          mode: manual
-          command: digger plan
-          project: digger_project_prod
           configure-checkout: true
-        #   digger-filename: "digger.${{ vars.ENVIRONMENT }}.yml"
-          setup-terragrunt: true
-          reporting-strategy: comments_per_run
-          post-plans-as-one-comment: true
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DIGGER_FILENAME: "digger.${{ vars.ENVIRONMENT }}.yml"
-
-      - name: prod digger apply
-        uses: diggerhq/digger@v0.2.6
-        with:
-          setup-aws: true
-          aws-role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          aws-region: eu-north-1
-
-          # https://github.com/diggerhq/digger/blob/develop/action.yml
-          mode: manual
-          command: digger apply
-          project: digger_project_prod
-          configure-checkout: true
-        #   digger-filename: "digger.${{ vars.ENVIRONMENT }}.yml"
+          # digger-filename: "digger.${{ vars.ENVIRONMENT }}.yml"
           setup-terragrunt: true
           reporting-strategy: comments_per_run
           post-plans-as-one-comment: true
