@@ -72,14 +72,14 @@ jobs:
 
           # https://github.com/diggerhq/digger/blob/develop/action.yml
           configure-checkout: true
-        #   digger-filename: "digger.${{ vars.ENVIRONMENT }}"
+        #   digger-filename: "digger.${{ vars.ENVIRONMENT }}.yml"
           setup-terragrunt: true
           reporting-strategy: comments_per_run
           post-plans-as-one-comment: true
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DIGGER_FILENAME: "digger.${{ vars.ENVIRONMENT }}"
+          DIGGER_FILENAME: "digger.${{ vars.ENVIRONMENT }}.yml"
 
   deploy_to_stage_job:
     if: github.event.pull_request.merged == true
@@ -109,10 +109,7 @@ jobs:
         uses: diggerhq/digger@v0.2.6
         with:
           setup-aws: true
-          # For OIDC:
-          #     https://docs.digger.dev/cloud-providers/authenticating-with-oidc-on-aws
-          #     https://github.com/aws-actions/configure-aws-credentials#OIDC
-          aws-role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}  # ARN to AWS IAM role which we want to assume!
+          aws-role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: eu-north-1
 
           # https://github.com/diggerhq/digger/blob/develop/action.yml
@@ -120,23 +117,20 @@ jobs:
           command: digger plan
           project: digger_project_stage
           configure-checkout: true
-        #   digger-filename: "digger.${{ vars.ENVIRONMENT }}"
+        #   digger-filename: "digger.${{ vars.ENVIRONMENT }}.yml"
           setup-terragrunt: true
-          reporting-strategy: comments_per_run # comments_per_run, latest_run_comment, default (any other value than previous ones) is: multiple comments
+          reporting-strategy: comments_per_run
           post-plans-as-one-comment: true
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DIGGER_FILENAME: "digger.${{ vars.ENVIRONMENT }}"
+          DIGGER_FILENAME: "digger.${{ vars.ENVIRONMENT }}.yml"
 
       - name: stage digger apply
         uses: diggerhq/digger@v0.2.6
         with:
           setup-aws: true
-          # For OIDC:
-          #     https://docs.digger.dev/cloud-providers/authenticating-with-oidc-on-aws
-          #     https://github.com/aws-actions/configure-aws-credentials#OIDC
-          aws-role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}  # ARN to AWS IAM role which we want to assume!
+          aws-role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: eu-north-1
 
           # https://github.com/diggerhq/digger/blob/develop/action.yml
@@ -144,14 +138,14 @@ jobs:
           command: digger apply
           project: digger_project_stage
           configure-checkout: true
-        #   digger-filename: "digger.${{ vars.ENVIRONMENT }}"
+        #   digger-filename: "digger.${{ vars.ENVIRONMENT }}.yml"
           setup-terragrunt: true
-          reporting-strategy: comments_per_run # comments_per_run, latest_run_comment, default (any other value than previous ones) is: multiple comments
+          reporting-strategy: comments_per_run
           post-plans-as-one-comment: true
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DIGGER_FILENAME: "digger.${{ vars.ENVIRONMENT }}"
+          DIGGER_FILENAME: "digger.${{ vars.ENVIRONMENT }}.yml"
 
   deploy_to_prod_job:
     if: github.event.pull_request.merged == true
@@ -181,10 +175,7 @@ jobs:
         uses: diggerhq/digger@v0.2.6
         with:
           setup-aws: true
-          # For OIDC:
-          #     https://docs.digger.dev/cloud-providers/authenticating-with-oidc-on-aws
-          #     https://github.com/aws-actions/configure-aws-credentials#OIDC
-          aws-role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}  # ARN to AWS IAM role which we want to assume!
+          aws-role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: eu-north-1
 
           # https://github.com/diggerhq/digger/blob/develop/action.yml
@@ -192,23 +183,20 @@ jobs:
           command: digger plan
           project: digger_project_prod
           configure-checkout: true
-        #   digger-filename: "digger.${{ vars.ENVIRONMENT }}"
+        #   digger-filename: "digger.${{ vars.ENVIRONMENT }}.yml"
           setup-terragrunt: true
-          reporting-strategy: comments_per_run # comments_per_run, latest_run_comment, default (any other value than previous ones) is: multiple comments
+          reporting-strategy: comments_per_run
           post-plans-as-one-comment: true
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DIGGER_FILENAME: "digger.${{ vars.ENVIRONMENT }}"
+          DIGGER_FILENAME: "digger.${{ vars.ENVIRONMENT }}.yml"
 
       - name: prod digger apply
         uses: diggerhq/digger@v0.2.6
         with:
           setup-aws: true
-          # For OIDC:
-          #     https://docs.digger.dev/cloud-providers/authenticating-with-oidc-on-aws
-          #     https://github.com/aws-actions/configure-aws-credentials#OIDC
-          aws-role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}  # ARN to AWS IAM role which we want to assume!
+          aws-role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: eu-north-1
 
           # https://github.com/diggerhq/digger/blob/develop/action.yml
@@ -216,11 +204,11 @@ jobs:
           command: digger apply
           project: digger_project_prod
           configure-checkout: true
-        #   digger-filename: "digger.${{ vars.ENVIRONMENT }}"
+        #   digger-filename: "digger.${{ vars.ENVIRONMENT }}.yml"
           setup-terragrunt: true
-          reporting-strategy: comments_per_run # comments_per_run, latest_run_comment, default (any other value than previous ones) is: multiple comments
+          reporting-strategy: comments_per_run
           post-plans-as-one-comment: true
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DIGGER_FILENAME: "digger.${{ vars.ENVIRONMENT }}"
+          DIGGER_FILENAME: "digger.${{ vars.ENVIRONMENT }}.yml"
