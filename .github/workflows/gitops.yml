@@ -72,7 +72,7 @@ jobs:
 
           # https://github.com/diggerhq/digger/blob/develop/action.yml
           configure-checkout: true
-          digger-filename: "digger.${{ vars.ENVIRONMENT }}"
+          digger-filename: ${{ format('digger.{0}', vars.ENVIRONMENT) }}
           setup-terragrunt: true
           reporting-strategy: comments_per_run
           post-plans-as-one-comment: true
@@ -119,7 +119,7 @@ jobs:
           command: digger plan
           project: digger_project_stage
           configure-checkout: true
-          digger-filename: "digger.${{ vars.ENVIRONMENT }}"
+          digger-filename: ${{ format('digger.{0}', vars.ENVIRONMENT) }}
           setup-terragrunt: true
           reporting-strategy: comments_per_run # comments_per_run, latest_run_comment, default (any other value than previous ones) is: multiple comments
           post-plans-as-one-comment: true
@@ -142,7 +142,7 @@ jobs:
           command: digger apply
           project: digger_project_stage
           configure-checkout: true
-          digger-filename: "digger.${{ vars.ENVIRONMENT }}"
+          digger-filename: ${{ format('digger.{0}', vars.ENVIRONMENT) }}
           setup-terragrunt: true
           reporting-strategy: comments_per_run # comments_per_run, latest_run_comment, default (any other value than previous ones) is: multiple comments
           post-plans-as-one-comment: true
@@ -189,7 +189,7 @@ jobs:
           command: digger plan
           project: digger_project_prod
           configure-checkout: true
-          digger-filename: "digger.${{ vars.ENVIRONMENT }}"
+          digger-filename: ${{ format('digger.{0}', vars.ENVIRONMENT) }}
           setup-terragrunt: true
           reporting-strategy: comments_per_run # comments_per_run, latest_run_comment, default (any other value than previous ones) is: multiple comments
           post-plans-as-one-comment: true
@@ -212,7 +212,7 @@ jobs:
           command: digger apply
           project: digger_project_prod
           configure-checkout: true
-          digger-filename: "digger.${{ vars.ENVIRONMENT }}"
+          digger-filename: ${{ format('digger.{0}', vars.ENVIRONMENT) }}
           setup-terragrunt: true
           reporting-strategy: comments_per_run # comments_per_run, latest_run_comment, default (any other value than previous ones) is: multiple comments
           post-plans-as-one-comment: true
