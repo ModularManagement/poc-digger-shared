@@ -1,0 +1,14 @@
+projects:
+  - name: digger_project_prod
+    dir: ./live/prod
+    workspace: default
+    terragrunt: true
+    workflow: digger_workflow_prod
+workflows:
+  digger_workflow_prod:
+    workflow_configuration:
+      on_pull_request_pushed: [digger plan]
+    plan:
+      steps:
+      - init
+      - plan
