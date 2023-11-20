@@ -1,0 +1,53 @@
+name: 'Push to default branch'
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy_to_stage:
+    runs-on: ubuntu-latest
+    environment: gh_env_stage
+    permissions:
+      contents: write      # required to merge PRs
+      id-token: write      # required for workload-identity-federation
+      pull-requests: write # required to post PR comments
+      statuses: write      # required to validate combined PR status
+
+    steps:
+      - name: Echo command for debugging
+        run: |
+          echo "debug echo"
+          echo "Environment is: ${{ vars.ENVIRONMENT }}"
+          # list of all github context variables: https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
+          echo "github.ref: ${{ github.ref }}"
+          echo "github.ref_name: ${{ github.ref_name }}"
+          echo "github.event.ref: ${{ github.event.ref }}"
+          echo "github.base_ref: ${{ github.base_ref }}"
+          echo "github.head_ref: ${{ github.head_ref }}"
+
+      - uses: actions/checkout@v4
+
+  deploy_to_prod:
+    runs-on: ubuntu-latest
+    environment: gh_env_prod
+    permissions:
+      contents: write      # required to merge PRs
+      id-token: write      # required for workload-identity-federation
+      pull-requests: write # required to post PR comments
+      statuses: write      # required to validate combined PR status
+
+    steps:
+      - name: Echo command for debugging
+        run: |
+          echo "debug echo"
+          echo "Environment is: ${{ vars.ENVIRONMENT }}"
+          # list of all github context variables: https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
+          echo "github.ref: ${{ github.ref }}"
+          echo "github.ref_name: ${{ github.ref_name }}"
+          echo "github.event.ref: ${{ github.event.ref }}"
+          echo "github.base_ref: ${{ github.base_ref }}"
+          echo "github.head_ref: ${{ github.head_ref }}"
+
+      - uses: actions/checkout@v4
