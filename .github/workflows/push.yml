@@ -139,7 +139,7 @@ jobs:
 
           # https://github.com/diggerhq/digger/blob/develop/action.yml
           mode: manual
-          command: digger aply
+          command: digger apply
           project: digger_project_prod
           configure-checkout: false
           setup-terragrunt: true
