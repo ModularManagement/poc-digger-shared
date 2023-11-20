@@ -4,6 +4,8 @@ projects:
     workspace: default
     terragrunt: true
     workflow: digger_workflow_dev
+    include_patterns:
+      - "./tf_modules/**"
 workflows:
   digger_workflow_dev:
     workflow_configuration:
