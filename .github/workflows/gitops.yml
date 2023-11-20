@@ -13,6 +13,9 @@ on: # https://docs.github.com/en/actions/using-workflows/events-that-trigger-wor
       - opened
       - synchronize
       - reopened
+  issue_comment:
+    types: 
+      - created
   workflow_dispatch:
 
 env:
@@ -21,6 +24,7 @@ env:
 jobs:
   gitops_dev_job:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request' || (github.event_name == 'issue_comment' && contains(github.event.comment.body, 'digger') && !contains(github.event.comment.body, 'apply')) }}
     environment: gh_env_dev
     permissions:
       contents: write      # required to merge PRs
@@ -42,6 +46,15 @@ jobs:
           echo "github.head_ref: ${{ github.head_ref }}"
 
       - uses: actions/checkout@v4
+        with:
+            clean: false
+            ref: refs/pull/${{ github.event.issue.number }}/merge
+        if: ${{ github.event_name == 'issue_comment' }}
+
+      - uses: actions/checkout@v4
+        with:
+            clean: false
+        if: ${{ github.event_name != 'issue_comment' }}
       
       - name: Rename digger environment file      # workaround until passing custom digger.yml is supported
         run: |
