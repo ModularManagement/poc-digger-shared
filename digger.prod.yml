@@ -9,8 +9,8 @@ projects:
 workflows:
   digger_workflow_prod:
     workflow_configuration:
-      on_pull_request_pushed: [digger plan]
-    plan:
+      on_commit_to_default: [digger apply]
+    apply:
       steps:
       - init
-      - plan
+      - apply
