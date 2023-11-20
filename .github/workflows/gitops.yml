@@ -16,7 +16,7 @@ on: # https://docs.github.com/en/actions/using-workflows/events-that-trigger-wor
   issue_comment:
     types: 
       - created
-    if: contains(github.event.comment.body, 'digger')
+    if: contains(github.event.comment.body, 'digger') && !contains(github.event.comment.body, 'apply')
   workflow_dispatch:
 
 env:
