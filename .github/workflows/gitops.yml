@@ -16,15 +16,63 @@ on: # https://docs.github.com/en/actions/using-workflows/events-that-trigger-wor
   issue_comment:
     types: 
       - created
-    if: contains(github.event.comment.body, 'digger') && !contains(github.event.comment.body, 'apply')
+    # if: contains(github.event.comment.body, 'digger') && !contains(github.event.comment.body, 'apply')
   workflow_dispatch:
 
 env:
   COLLECT_USAGE_DATA: "false"
 
 jobs:
+  commentops_dev_job:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.issue.pull_request }}
+    environment: gh_env_dev
+    permissions:
+      contents: write      # required to merge PRs
+      id-token: write      # required for workload-identity-federation
+      pull-requests: write # required to post PR comments
+      statuses: write      # required to validate combined PR status
+
+    steps:
+      - name: Echo command for debugging
+        run: |
+          echo "debug echo"
+          echo "Environment is: ${{ vars.ENVIRONMENT }}"
+          # list of all github context variables: https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
+          echo "github.ref: ${{ github.ref }}"
+          echo "github.ref_name: ${{ github.ref_name }}"
+          echo "github.event.ref: ${{ github.event.ref }}"
+          echo "github.base_ref: ${{ github.base_ref }}"
+          echo "github.head_ref: ${{ github.head_ref }}"
+
+      - uses: actions/checkout@v4
+      
+      - name: Rename digger environment file      # workaround until passing custom digger.yml is supported
+        run: |
+          mv digger.${{ vars.ENVIRONMENT }}.yml digger.yml
+
+      - name: digger run
+        uses: diggerhq/digger@v0.2.6
+        with:
+          setup-aws: true
+          # For OIDC:
+          #     https://docs.digger.dev/cloud-providers/authenticating-with-oidc-on-aws
+          #     https://github.com/aws-actions/configure-aws-credentials#OIDC
+          aws-role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}  # ARN to AWS IAM role which we want to assume!
+          aws-region: eu-north-1
+
+          # https://github.com/diggerhq/digger/blob/develop/action.yml
+          configure-checkout: false
+          setup-terragrunt: true
+          reporting-strategy: comments_per_run
+          post-plans-as-one-comment: true
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   gitops_dev_job:
     runs-on: ubuntu-latest
+    if: ${{ !github.event.issue.pull_request }}
     environment: gh_env_dev
     permissions:
       contents: write      # required to merge PRs
