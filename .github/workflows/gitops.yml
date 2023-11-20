@@ -44,8 +44,6 @@ jobs:
           echo "github.event_name: ${{ github.event_name }}"
           echo "github.base_ref: ${{ github.base_ref }}"
           echo "github.head_ref: ${{ github.head_ref }}"
-          echo "${{ format('digger.{0}', vars.ENVIRONMENT) }}"
-          echo "digger.${{ vars.ENVIRONMENT }}"
 
     #   - uses: actions/checkout@v4
     #     with:
@@ -74,13 +72,14 @@ jobs:
 
           # https://github.com/diggerhq/digger/blob/develop/action.yml
           configure-checkout: true
-          digger-filename: ${{ format('digger.{0}', vars.ENVIRONMENT) }}
+        #   digger-filename: "digger.${{ vars.ENVIRONMENT }}"
           setup-terragrunt: true
           reporting-strategy: comments_per_run
           post-plans-as-one-comment: true
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DIGGER_FILENAME: "digger.${{ vars.ENVIRONMENT }}"
 
   deploy_to_stage_job:
     if: github.event.pull_request.merged == true
@@ -121,13 +120,14 @@ jobs:
           command: digger plan
           project: digger_project_stage
           configure-checkout: true
-          digger-filename: ${{ format('digger.{0}', vars.ENVIRONMENT) }}
+        #   digger-filename: "digger.${{ vars.ENVIRONMENT }}"
           setup-terragrunt: true
           reporting-strategy: comments_per_run # comments_per_run, latest_run_comment, default (any other value than previous ones) is: multiple comments
           post-plans-as-one-comment: true
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DIGGER_FILENAME: "digger.${{ vars.ENVIRONMENT }}"
 
       - name: stage digger apply
         uses: diggerhq/digger@v0.2.6
@@ -144,13 +144,14 @@ jobs:
           command: digger apply
           project: digger_project_stage
           configure-checkout: true
-          digger-filename: ${{ format('digger.{0}', vars.ENVIRONMENT) }}
+        #   digger-filename: "digger.${{ vars.ENVIRONMENT }}"
           setup-terragrunt: true
           reporting-strategy: comments_per_run # comments_per_run, latest_run_comment, default (any other value than previous ones) is: multiple comments
           post-plans-as-one-comment: true
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DIGGER_FILENAME: "digger.${{ vars.ENVIRONMENT }}"
 
   deploy_to_prod_job:
     if: github.event.pull_request.merged == true
@@ -191,13 +192,14 @@ jobs:
           command: digger plan
           project: digger_project_prod
           configure-checkout: true
-          digger-filename: ${{ format('digger.{0}', vars.ENVIRONMENT) }}
+        #   digger-filename: "digger.${{ vars.ENVIRONMENT }}"
           setup-terragrunt: true
           reporting-strategy: comments_per_run # comments_per_run, latest_run_comment, default (any other value than previous ones) is: multiple comments
           post-plans-as-one-comment: true
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DIGGER_FILENAME: "digger.${{ vars.ENVIRONMENT }}"
 
       - name: prod digger apply
         uses: diggerhq/digger@v0.2.6
@@ -214,10 +216,11 @@ jobs:
           command: digger apply
           project: digger_project_prod
           configure-checkout: true
-          digger-filename: ${{ format('digger.{0}', vars.ENVIRONMENT) }}
+        #   digger-filename: "digger.${{ vars.ENVIRONMENT }}"
           setup-terragrunt: true
           reporting-strategy: comments_per_run # comments_per_run, latest_run_comment, default (any other value than previous ones) is: multiple comments
           post-plans-as-one-comment: true
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DIGGER_FILENAME: "digger.${{ vars.ENVIRONMENT }}"
