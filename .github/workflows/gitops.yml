@@ -24,7 +24,7 @@ env:
 jobs:
   gitops_dev_job:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull_request' }} || ${{ github.event.issue.pull_request }} && contains(github.event.comment.body, 'digger') && !contains(github.event.comment.body, 'apply')
+    if: ${{ github.event_name == 'pull_request' }}
     environment: gh_env_dev
     permissions:
       contents: write      # required to merge PRs
